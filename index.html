@@ -1,21 +1,53 @@
 <link rel="stylesheet" href="style.css" />
 
 
-<h1>Russia Time Zone Clock Puzzle</h1>
-<div class="subtitle">
-  Thailand time is <b>18:00</b>. Adjust all Russian clocks correctly.
+<div class="container">
+
+  <h1 class="title">BRACKET.CITY</h1>
+
+  <div class="subtitle">
+    CYBER PUZZLE ENGINE
+  </div>
+
+  <div class="game-box">
+
+    <div class="puzzle" id="puzzle"></div>
+
+    <div class="panel">
+
+      <div class="current-label">
+        CURRENT CLUE
+      </div>
+
+      <div class="current-clue" id="currentClue">
+        Select a highlighted clue
+      </div>
+
+      <div class="input-wrap">
+
+        <input
+          id="answerInput"
+          type="text"
+          placeholder="ENTER ANSWER..."
+          autocomplete="off"
+          autocorrect="off"
+          spellcheck="false"
+        />
+
+        <button id="submitBtn">
+          SUBMIT
+        </button>
+
+      </div>
+
+      <div class="status" id="status"></div>
+
+    </div>
+
+    <div class="complete" id="complete"></div>
+
+  </div>
+
 </div>
-
-<div class="clocks" id="clocks"></div>
-<div class="buttons" id="buttons"></div>
-
-<button class="reset" onclick="resetGame()">Reset</button>
-
-<div class="status" id="status"></div>
-<div class="small" id="moves"></div>
-
-<!-- ลบก่อน deploy: เริ่ม -->
-<div class="debug-box" id="debugBox"></div>
-<!-- ลบก่อน deploy: จบ -->
 
   <script src="script.js"></script>
