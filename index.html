@@ -1,53 +1,65 @@
-<link rel="stylesheet" href="style.css" />
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BRACKET.CITY</title>
 
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
 
-<div class="container">
+  <main class="container">
 
-  <h1 class="title">BRACKET.CITY</h1>
+    <header class="header">
+      <h1 class="title">BRACKET<span class="dot">.</span>CITY</h1>
+      <p class="subtitle">ปริศนาวงเล็บซ้อนวงเล็บ ไขทีละชั้นจนเหลือแต่ข้อความ</p>
+    </header>
 
-  <div class="subtitle">
-    CYBER PUZZLE ENGINE
-  </div>
+    <section class="game-box">
 
-  <div class="game-box">
-
-    <div class="puzzle" id="puzzle"></div>
-
-    <div class="panel">
-
-      <div class="current-label">
-        CURRENT CLUE
+      <div class="progress" aria-label="ความคืบหน้า">
+        <div class="progress-track">
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <div class="progress-text" id="progressText">0 / 0</div>
       </div>
 
-      <div class="current-clue" id="currentClue">
-        Select a highlighted clue
+      <div class="puzzle" id="puzzle"></div>
+
+      <div class="panel">
+
+        <div class="current-label">คำใบ้ที่เลือก</div>
+
+        <div class="current-clue" id="currentClue">
+          เลือกคำใบ้ที่เรืองแสงเพื่อเริ่มเล่น
+        </div>
+
+        <div class="input-wrap">
+          <input
+            id="answerInput"
+            type="text"
+            placeholder="พิมพ์คำตอบที่นี่"
+            autocomplete="off"
+            autocorrect="off"
+            spellcheck="false"
+          />
+          <button id="submitBtn">ส่งคำตอบ</button>
+        </div>
+
+        <div class="status" id="status" role="status" aria-live="polite"></div>
+
       </div>
 
-      <div class="input-wrap">
+      <div class="complete" id="complete"></div>
 
-        <input
-          id="answerInput"
-          type="text"
-          placeholder="ENTER ANSWER..."
-          autocomplete="off"
-          autocorrect="off"
-          spellcheck="false"
-        />
+    </section>
 
-        <button id="submitBtn">
-          SUBMIT
-        </button>
-
-      </div>
-
-      <div class="status" id="status"></div>
-
-    </div>
-
-    <div class="complete" id="complete"></div>
-
-  </div>
-
-</div>
+  </main>
 
   <script src="script.js"></script>
+</body>
+</html>

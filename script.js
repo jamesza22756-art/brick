@@ -129,6 +129,12 @@ document.getElementById("status");
 const completeEl =
 document.getElementById("complete");
 
+const progressTextEl =
+document.getElementById("progressText");
+
+const progressBarEl =
+document.getElementById("progressBar");
+
 let selectedClue =
 null;
 
@@ -193,41 +199,26 @@ function render(){
   activeNodes.forEach(node=>{
 
     const isSelected =
-    selectedClue ===
-    node.inner;
+    selectedClue === node.inner;
 
     const className =
-    `node active ${
-      isSelected
-      ? "selected"
-      : ""
-    }`;
+    `node active${isSelected ? " selected" : ""}`;
+
+    const safeClue =
+    node.inner.replace(/"/g,"&quot;");
 
     html =
     html.replace(
-
       node.full,
-
-      `<span
-        class="${className}"
-        data-clue="${node.inner}"
-      >
-        ${node.full}
-      </span>`
-
+      `<span class="${className}" data-clue="${safeClue}" tabindex="0" role="button">${node.full}</span>`
     );
 
   });
 
   html =
   html.replace(
-
     /\[([^[\]]+)\]/g,
-
-    `<span class="node locked">
-      [$1]
-    </span>`
-
+    `<span class="node locked">[$1]</span>`
   );
 
   puzzleEl.innerHTML =
@@ -237,27 +228,42 @@ function render(){
     .querySelectorAll(".active")
     .forEach(el=>{
 
-      el.addEventListener(
+      const pick = ()=>{
 
-        "click",
+        selectedClue =
+        el.dataset.clue;
 
-        ()=>{
+        currentClueEl.textContent =
+        selectedClue;
 
-          selectedClue =
-          el.dataset.clue;
+        currentClueEl.classList.add("has-clue");
 
-          currentClueEl.textContent =
-          selectedClue;
+        statusEl.textContent = "";
+        statusEl.className = "status";
 
-          render();
+        render();
 
-          inputEl.focus();
+        inputEl.focus();
 
+      };
+
+      el.addEventListener("click", pick);
+
+      el.addEventListener("keydown", e=>{
+        if(e.key === "Enter" || e.key === " "){
+          e.preventDefault();
+          pick();
         }
-
-      );
+      });
 
     });
+
+  const total = Object.keys(ANSWERS).length;
+  const left  = (currentText.match(/\[/g) || []).length;
+  const done  = Math.max(0, total - left);
+
+  progressTextEl.textContent = `${done} / ${total}`;
+  progressBarEl.style.width  = `${total ? (done/total)*100 : 0}%`;
 
   if(
     activeNodes.length === 0
@@ -266,8 +272,11 @@ function render(){
     completeEl.textContent =
     currentText;
 
+    completeEl.classList.add("show");
+    document.body.classList.add("solved");
+
     currentClueEl.textContent =
-    "PUZZLE COMPLETE";
+    "ไขปริศนาสำเร็จแล้ว";
 
     inputEl.disabled =
     true;
@@ -304,10 +313,9 @@ function submitAnswer(){
   if(!correct){
 
     statusEl.textContent =
-      "MISSING ANSWER DATA";
+      "ไม่พบข้อมูลเฉลยของคำใบ้นี้";
 
-    statusEl.style.color =
-      "#ff6b9c";
+    statusEl.className = "status bad";
 
     return;
 
@@ -330,10 +338,9 @@ function submitAnswer(){
     );
 
     statusEl.textContent =
-    "ACCESS GRANTED";
+    "ถูกต้อง!";
 
-    statusEl.style.color =
-    "#7dffb2";
+    statusEl.className = "status good";
 
     selectedClue =
     null;
@@ -342,17 +349,18 @@ function submitAnswer(){
     "";
 
     currentClueEl.textContent =
-    "Select a highlighted clue";
+    "เลือกคำใบ้ที่เรืองแสงเพื่อเริ่มเล่น";
+
+    currentClueEl.classList.remove("has-clue");
 
     render();
 
   }else{
 
     statusEl.textContent =
-    "ACCESS DENIED";
+    "ยังไม่ถูก ลองอีกครั้ง";
 
-    statusEl.style.color =
-    "#ff6b9c";
+    statusEl.className = "status bad";
 
     inputEl.animate(
 
